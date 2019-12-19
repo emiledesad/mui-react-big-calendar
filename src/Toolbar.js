@@ -1,70 +1,103 @@
 import PropTypes from 'prop-types'
 import React from 'react'
-import clsx from 'clsx'
 import { navigate } from './utils/constants'
 
-class Toolbar extends React.Component {
-  render() {
-    let {
-      localizer: { messages },
-      label,
-    } = this.props
+import {
+  Button,
+  Grid,
+  Box,
+  ButtonGroup,
+  Typography,
+  makeStyles,
+  IconButton,
+} from '@material-ui/core'
 
-    return (
-      <div className="rbc-toolbar">
-        <span className="rbc-btn-group">
-          <button
-            type="button"
-            onClick={this.navigate.bind(null, navigate.TODAY)}
-          >
-            {messages.today}
-          </button>
-          <button
-            type="button"
-            onClick={this.navigate.bind(null, navigate.PREVIOUS)}
-          >
-            {messages.previous}
-          </button>
-          <button
-            type="button"
-            onClick={this.navigate.bind(null, navigate.NEXT)}
-          >
-            {messages.next}
-          </button>
-        </span>
+import { NavigateNext, NavigateBefore } from '@material-ui/icons'
 
-        <span className="rbc-toolbar-label">{label}</span>
+const useStyles = makeStyles(() => ({
+  columnLeft: {
+    display: 'flex',
+    alignItems: 'center',
+  },
+  columnRight: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+  },
+  columnCenter: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+}))
 
-        <span className="rbc-btn-group">{this.viewNamesGroup(messages)}</span>
-      </div>
-    )
+const Toolbar = props => {
+  const thisNavigate = action => {
+    props.onNavigate(action)
   }
 
-  navigate = action => {
-    this.props.onNavigate(action)
+  const thisView = view => {
+    props.onView(view)
   }
 
-  view = view => {
-    this.props.onView(view)
-  }
-
-  viewNamesGroup(messages) {
-    let viewNames = this.props.views
-    const view = this.props.view
+  const viewNamesGroup = messages => {
+    let viewNames = props.views
+    const view = props.view
 
     if (viewNames.length > 1) {
-      return viewNames.map(name => (
-        <button
-          type="button"
-          key={name}
-          className={clsx({ 'rbc-active': view === name })}
-          onClick={this.view.bind(null, name)}
-        >
-          {messages[name]}
-        </button>
-      ))
+      return viewNames.map(name => {
+        const color = view === name ? 'primary' : 'default'
+        return (
+          <Button
+            variant="contained"
+            key={name}
+            color={color}
+            onClick={thisView.bind(null, name)}
+          >
+            {messages[name]}
+          </Button>
+        )
+      })
     }
   }
+
+  let {
+    localizer: { messages },
+    label,
+  } = props
+  const classes = useStyles()
+
+  return (
+    <Box>
+      <Box marginBottom={1}>
+        <Grid container spacing={3}>
+          <Grid item xs={12} className={classes.columnCenter}>
+            <ButtonGroup>{viewNamesGroup(messages)}</ButtonGroup>
+          </Grid>
+        </Grid>
+      </Box>
+      <Box marginBottom={2}>
+        <Grid container spacing={3}>
+          <Grid item xs={6} className={classes.columnLeft}>
+            <Typography variant="h5" component="h5">
+              {label}
+            </Typography>
+          </Grid>
+          <Grid item xs={6} className={classes.columnRight}>
+            <IconButton onClick={thisNavigate.bind(null, navigate.PREVIOUS)}>
+              <NavigateBefore />
+            </IconButton>
+            <Button onClick={thisNavigate.bind(null, navigate.TODAY)}>
+              {messages.today}
+            </Button>
+            <IconButton onClick={thisNavigate.bind(null, navigate.NEXT)}>
+              <NavigateNext />
+            </IconButton>
+          </Grid>
+        </Grid>
+      </Box>
+    </Box>
+  )
 }
 
 Toolbar.propTypes = {
