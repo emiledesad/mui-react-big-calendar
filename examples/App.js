@@ -4,8 +4,9 @@ import Intro from './Intro.md'
 import { render } from 'react-dom'
 import Layout from 'react-tackle-box/Layout'
 
-import localizer from 'react-big-calendar/lib/localizers/globalize'
-import globalize from 'globalize'
+//import localizer from 'react-big-calendar/lib/localizers/globalize'
+import localizer from 'react-big-calendar/lib/localizers/intl'
+// import globalize from 'globalize'
 
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'font-awesome/css/font-awesome.min.css'
@@ -16,6 +17,7 @@ import './prism.scss'
 import Card from './Card'
 import ExampleControlSlot from './ExampleControlSlot'
 import Basic from './demos/basic'
+import MUIExample from './demos/muiExample'
 import Selectable from './demos/selectable'
 import CreateEventWithNoOverlap from './demos/createEventWithNoOverlap'
 import Cultures from './demos/cultures'
@@ -30,7 +32,8 @@ import DndOutsideSource from './demos/dndOutsideSource'
 import Dropdown from 'react-bootstrap/lib/Dropdown'
 import MenuItem from 'react-bootstrap/lib/MenuItem'
 
-const globalizeLocalizer = localizer(globalize)
+// const globalizeLocalizer = localizer(globalize)
+const intlLocalizer = localizer(Intl)
 
 let demoRoot =
   'https://github.com/intljusticemission/react-big-calendar/tree/master/examples/demos'
@@ -48,9 +51,10 @@ const EXAMPLES = {
   dnd: 'Addon: Drag and drop',
   dndresource: 'Resource Drag and drop',
   dndOutsideSource: 'Addon: Drag and drop (from outside calendar)',
+  muiExample: 'muiExample',
 }
 
-const DEFAULT_EXAMPLE = 'basic'
+const DEFAULT_EXAMPLE = 'muiExample'
 
 class Example extends React.Component {
   constructor(...args) {
@@ -85,6 +89,7 @@ class Example extends React.Component {
       dndresource: DndResource,
       dndOutsideSource: DndOutsideSource,
       createEventWithNoOverlap: CreateEventWithNoOverlap,
+      muiExample: MUIExample,
     }[selected]
 
     return (
@@ -153,7 +158,7 @@ class Example extends React.Component {
             <ExampleControlSlot.Outlet />
           </Card>
           <div className="example">
-            <Current localizer={globalizeLocalizer} />
+            <Current localizer={intlLocalizer} />
           </div>
         </div>
         <div className="docs">
