@@ -12,7 +12,7 @@ const ColoredDateCellWrapper = ({ children }) =>
     },
   })
 
-let MUIExample = ({ localizer }) => (
+const MUIExample = ({ localizer }) => (
   <Calendar
     events={events}
     views={allViews}
