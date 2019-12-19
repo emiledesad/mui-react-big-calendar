@@ -8,12 +8,13 @@ import Layout from 'react-tackle-box/Layout'
 import localizer from 'react-big-calendar/lib/localizers/intl'
 // import globalize from 'globalize'
 
-import 'bootstrap/dist/css/bootstrap.min.css'
-import 'font-awesome/css/font-awesome.min.css'
+//import 'bootstrap/dist/css/bootstrap.min.css'
+//import 'font-awesome/css/font-awesome.min.css'
 
-import 'react-big-calendar/lib/sass/styles.scss'
-import './styles.scss'
-import './prism.scss'
+//import 'react-big-calendar/lib/sass/styles.scss'
+//import './styles.scss'
+//import './prism.scss'
+
 import Card from './Card'
 import ExampleControlSlot from './ExampleControlSlot'
 import Basic from './demos/basic'
@@ -94,6 +95,10 @@ class Example extends React.Component {
 
     return (
       <div className="app">
+        <link
+          rel="stylesheet"
+          href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
+        />
         <div className="jumbotron">
           <div className="container">
             <h1>
