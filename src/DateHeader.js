@@ -1,15 +1,21 @@
 import PropTypes from 'prop-types'
 import React from 'react'
 
+import { Link, Typography, Box } from '@material-ui/core'
+
 const DateHeader = ({ label, drilldownView, onDrillDown }) => {
   if (!drilldownView) {
     return <span>{label}</span>
   }
 
   return (
-    <a href="#" onClick={onDrillDown}>
-      {label}
-    </a>
+    <Box ml={2} mr={2}>
+      <Typography align="right">
+        <Link component="button" onClick={onDrillDown}>
+          {label}
+        </Link>
+      </Typography>
+    </Box>
   )
 }
 

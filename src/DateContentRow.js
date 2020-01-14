@@ -11,6 +11,25 @@ import EventRow from './EventRow'
 import EventEndingRow from './EventEndingRow'
 import * as DateSlotMetrics from './utils/DateSlotMetrics'
 
+import { Grid, Box, withStyles, Typography } from '@material-ui/core'
+
+const styles = theme => ({
+  rowContent: {
+    // borderRight: '1px solid gray',
+    // borderLeft: '1px solid gray',
+    borderBottom: '1px solid gray',
+    boxSizing: 'border-box',
+    position: 'relative',
+    zIndex: 2,
+  },
+  rbcRow: {
+    display: 'flex',
+  },
+  rbcMonthRow: {
+    position: 'relative',
+  },
+})
+
 class DateContentRow extends React.Component {
   constructor(...args) {
     super(...args)
@@ -71,16 +90,23 @@ class DateContentRow extends React.Component {
   }
 
   renderDummy = () => {
-    let { className, range, renderHeader } = this.props
+    let { className, range, renderHeader, classes } = this.props
+
     return (
-      <div className={className}>
-        <div className="rbc-row-content">
+      <div className={`${className}`}>
+        <div className={`${classes.rowContent} rbc-row-content`}>
           {renderHeader && (
-            <div className="rbc-row" ref={this.createHeadingRef}>
+            <div
+              className={`${classes.rbcRow} rbc-row`}
+              ref={this.createHeadingRef}
+            >
               {range.map(this.renderHeadingCell)}
             </div>
           )}
-          <div className="rbc-row" ref={this.createEventRef}>
+          <div
+            className={`${classes.rbcRow} rbc-row`}
+            ref={this.createEventRef}
+          >
             <div className="rbc-row-segment">
               <div className="rbc-event">
                 <div className="rbc-event-content">&nbsp;</div>
@@ -116,6 +142,7 @@ class DateContentRow extends React.Component {
       resourceId,
       longPressThreshold,
       isAllDay,
+      classes,
     } = this.props
 
     if (renderForMeasure) return this.renderDummy()
@@ -138,7 +165,7 @@ class DateContentRow extends React.Component {
     }
 
     return (
-      <div className={className}>
+      <Box className={`${classes.rbcMonthRow} ${className}`}>
         <BackgroundCells
           date={date}
           getNow={getNow}
@@ -154,9 +181,12 @@ class DateContentRow extends React.Component {
           longPressThreshold={longPressThreshold}
         />
 
-        <div className="rbc-row-content">
+        <Box className={`${classes.rowContent} rbc-row-content`}>
           {renderHeader && (
-            <div className="rbc-row " ref={this.createHeadingRef}>
+            <div
+              className={`${classes.rbcRow} rbc-row`}
+              ref={this.createHeadingRef}
+            >
               {range.map(this.renderHeadingCell)}
             </div>
           )}
@@ -172,8 +202,8 @@ class DateContentRow extends React.Component {
               />
             )}
           </WeekWrapper>
-        </div>
-      </div>
+        </Box>
+      </Box>
     )
   }
 }
@@ -218,4 +248,4 @@ DateContentRow.defaultProps = {
   maxRows: Infinity,
 }
 
-export default DateContentRow
+export default withStyles(styles)(DateContentRow)

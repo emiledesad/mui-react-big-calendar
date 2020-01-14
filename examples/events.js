@@ -39,7 +39,7 @@ export default [
     id: 5,
     title: 'Conference',
     start: new Date(2015, 3, 11),
-    end: new Date(2015, 3, 13),
+    end: new Date(2015, 3, 14),
     desc: 'Big conference for important people',
   },
   {

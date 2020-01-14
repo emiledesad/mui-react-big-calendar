@@ -19,6 +19,21 @@ import DateHeader from './DateHeader'
 
 import { inRange, sortEvents } from './utils/eventLevels'
 
+import { Grid, Box, withStyles, Typography } from '@material-ui/core'
+
+const styles = () => ({
+  gridItem: {
+    display: 'flex',
+    flex: '1 0',
+    justifyContent: 'flex-end',
+    borderRight: '1px solid gray',
+    boxSizing: 'border-box',
+  },
+  cellDay: {
+    flex: '1 0',
+  },
+})
+
 let eventsForWeek = (evts, start, end, accessors) =>
   evts.filter(e => inRange(e, start, end, accessors))
 
@@ -80,13 +95,13 @@ class MonthView extends React.Component {
     this._weekCount = weeks.length
 
     return (
-      <div className={clsx('rbc-month-view', className)}>
-        <div className="rbc-row rbc-month-header">
+      <Box className={`rbc-month-view`}>
+        <Grid container spacing={0}>
           {this.renderHeaders(weeks[0])}
-        </div>
+        </Grid>
         {weeks.map(this.renderWeek)}
         {this.props.popup && this.renderOverlay()}
-      </div>
+      </Box>
     )
   }
 
@@ -140,7 +155,7 @@ class MonthView extends React.Component {
   }
 
   readerDateHeading = ({ date, className, ...props }) => {
-    let { date: currentDate, getDrilldownView, localizer } = this.props
+    let { date: currentDate, getDrilldownView, localizer, classes } = this.props
 
     let isOffRange = dates.month(date) !== dates.month(currentDate)
     let isCurrent = dates.eq(date, currentDate, 'day')
@@ -149,13 +164,13 @@ class MonthView extends React.Component {
     let DateHeaderComponent = this.props.components.dateHeader || DateHeader
 
     return (
-      <div
+      <Box
         {...props}
-        className={clsx(
+        className={`${clsx(
           className,
           isOffRange && 'rbc-off-range',
           isCurrent && 'rbc-current'
-        )}
+        )} ${classes.cellDay}`}
       >
         <DateHeaderComponent
           label={label}
@@ -164,7 +179,7 @@ class MonthView extends React.Component {
           isOffRange={isOffRange}
           onDrillDown={e => this.handleHeadingClick(date, drilldownView, e)}
         />
-      </div>
+      </Box>
     )
   }
 
@@ -173,15 +188,20 @@ class MonthView extends React.Component {
     let first = row[0]
     let last = row[row.length - 1]
     let HeaderComponent = components.header || Header
+    const { classes } = this.props
 
     return dates.range(first, last, 'day').map((day, idx) => (
-      <div key={'header_' + idx} className="rbc-header">
-        <HeaderComponent
-          date={day}
-          localizer={localizer}
-          label={localizer.format(day, 'weekdayFormat')}
-        />
-      </div>
+      <Grid className={classes.gridItem} item key={'header_' + idx}>
+        <Box marginRight={2}>
+          <Typography>
+            <HeaderComponent
+              date={day}
+              localizer={localizer}
+              label={localizer.format(day, 'weekdayFormat')}
+            />
+          </Typography>
+        </Box>
+      </Grid>
     ))
   }
 
@@ -264,7 +284,12 @@ class MonthView extends React.Component {
       let position = getPosition(cell, findDOMNode(this))
 
       this.setState({
-        overlay: { date, events, position, target },
+        overlay: {
+          date,
+          events,
+          position,
+          target,
+        },
       })
     } else {
       notify(onDrillDown, [date, getDrilldownView(date) || views.DAY])
@@ -331,10 +356,7 @@ MonthView.propTypes = {
 
   popupOffset: PropTypes.oneOfType([
     PropTypes.number,
-    PropTypes.shape({
-      x: PropTypes.number,
-      y: PropTypes.number,
-    }),
+    PropTypes.shape({ x: PropTypes.number, y: PropTypes.number }),
   ]),
 }
 
@@ -360,4 +382,4 @@ MonthView.navigate = (date, action) => {
 MonthView.title = (date, { localizer }) =>
   localizer.format(date, 'monthHeaderFormat')
 
-export default MonthView
+export default withStyles(styles)(MonthView)

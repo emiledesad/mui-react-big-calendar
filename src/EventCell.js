@@ -3,6 +3,8 @@ import React from 'react'
 import clsx from 'clsx'
 import * as dates from './utils/dates'
 
+import { Typography, Box, Button } from '@material-ui/core'
+
 class EventCell extends React.Component {
   render() {
     let {
@@ -37,22 +39,34 @@ class EventCell extends React.Component {
     let userProps = getters.eventProp(event, start, end, selected)
 
     const content = (
-      <div className="rbc-event-content" title={tooltip || undefined}>
-        {Event ? (
-          <Event
-            event={event}
-            continuesPrior={continuesPrior}
-            continuesAfter={continuesAfter}
-            title={title}
-            isAllDay={allDay}
-            localizer={localizer}
-            slotStart={slotStart}
-            slotEnd={slotEnd}
-          />
-        ) : (
-          title
-        )}
-      </div>
+      <Box
+        ml={1}
+        mr={1}
+        className="rbc-event-content"
+        title={tooltip || undefined}
+      >
+        <Button
+          size="small"
+          fullWidth={true}
+          variant="contained"
+          color="secondary"
+        >
+          {Event ? (
+            <Event
+              event={event}
+              continuesPrior={continuesPrior}
+              continuesAfter={continuesAfter}
+              title={title}
+              isAllDay={allDay}
+              localizer={localizer}
+              slotStart={slotStart}
+              slotEnd={slotEnd}
+            />
+          ) : (
+            title
+          )}
+        </Button>
+      </Box>
     )
 
     return (

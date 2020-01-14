@@ -8,6 +8,26 @@ import { notify } from './utils/helpers'
 import { dateCellSelection, getSlotAtX, pointInBox } from './utils/selection'
 import Selection, { getBoundsForNode, isEvent } from './Selection'
 
+import { withStyles } from '@material-ui/core'
+
+const styles = () => ({
+  bgDay: {
+    borderRight: '1px solid gray',
+    borderBottom: '1px solid gray',
+    boxSizing: 'border-box',
+    flex: '1 0',
+  },
+  rbcRowBg: {
+    display: 'flex',
+    position: 'absolute',
+    left: 0,
+    top: 0,
+    bottom: 0,
+    right: 0,
+    zIndex: 1,
+  },
+})
+
 class BackgroundCells extends React.Component {
   constructor(props, context) {
     super(props, context)
@@ -39,21 +59,23 @@ class BackgroundCells extends React.Component {
       getters,
       date: currentDate,
       components: { dateCellWrapper: Wrapper },
+      classes,
     } = this.props
     let { selecting, startIdx, endIdx } = this.state
     let current = getNow()
 
     return (
-      <div className="rbc-row-bg">
+      <div className={`${classes.rbcRowBg} rbc-row-bg`}>
         {range.map((date, index) => {
           let selected = selecting && index >= startIdx && index <= endIdx
           const { className, style } = getters.dayProp(date)
+          const { classes } = this.props
 
           return (
             <Wrapper key={index} value={date} range={range}>
               <div
                 style={style}
-                className={clsx(
+                className={`${clsx(
                   'rbc-day-bg',
                   className,
                   selected && 'rbc-selected-cell',
@@ -61,7 +83,7 @@ class BackgroundCells extends React.Component {
                   currentDate &&
                     dates.month(currentDate) !== dates.month(date) &&
                     'rbc-off-range-bg'
-                )}
+                )} ${classes.bgDay}`}
               />
             </Wrapper>
           )
@@ -185,4 +207,4 @@ BackgroundCells.propTypes = {
   type: PropTypes.string,
 }
 
-export default BackgroundCells
+export default withStyles(styles)(BackgroundCells)

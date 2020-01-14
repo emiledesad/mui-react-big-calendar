@@ -3,18 +3,27 @@ import clsx from 'clsx'
 import React from 'react'
 import EventRowMixin from './EventRowMixin'
 
+import { withStyles } from '@material-ui/core'
+
+const styles = () => ({
+  rbcRow: {
+    display: 'flex',
+  },
+})
+
 class EventRow extends React.Component {
   render() {
     let {
       segments,
       slotMetrics: { slots },
       className,
+      classes,
     } = this.props
 
     let lastEnd = 1
 
     return (
-      <div className={clsx(className, 'rbc-row')}>
+      <div className={`${clsx(className, 'rbc-row')} ${classes.rbcRow}`}>
         {segments.reduce((row, { event, left, right, span }, li) => {
           let key = '_lvl_' + li
           let gap = left - lastEnd
@@ -43,4 +52,4 @@ EventRow.defaultProps = {
   ...EventRowMixin.defaultProps,
 }
 
-export default EventRow
+export default withStyles(styles)(EventRow)

@@ -3,6 +3,7 @@ import Api from './Api'
 import Intro from './Intro.md'
 import { render } from 'react-dom'
 import Layout from 'react-tackle-box/Layout'
+import 'typeface-roboto'
 
 //import localizer from 'react-big-calendar/lib/localizers/globalize'
 import localizer from 'react-big-calendar/lib/localizers/intl'
@@ -95,11 +96,11 @@ class Example extends React.Component {
 
     return (
       <div className="app">
-        <link
+        {/* <link
           rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
-        />
-        <div className="jumbotron">
+        /> */}
+        {/* <div className="jumbotron">
           <div className="container">
             <h1>
               Big Calendar <i className="fa fa-calendar" />
@@ -122,9 +123,9 @@ class Example extends React.Component {
               </a>
             </p>
           </div>
-        </div>
+        </div> */}
         <div className="examples">
-          <Card className="examples--header">
+          {/* <Card className="examples--header">
             <Layout
               align="center"
               justify="space-between"
@@ -161,17 +162,17 @@ class Example extends React.Component {
               </Dropdown>
             </Layout>
             <ExampleControlSlot.Outlet />
-          </Card>
+          </Card> */}
           <div className="example">
             <Current localizer={intlLocalizer} />
           </div>
         </div>
-        <div className="docs">
+        {/* <div className="docs">
           <div className="contain section">
             <Intro />
           </div>
           <Api className="contain section" />
-        </div>
+        </div> */}
       </div>
     )
   }
